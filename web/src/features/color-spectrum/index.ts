@@ -1,0 +1,1 @@
+export { ColorSpectrum } from './ColorSpectrum';

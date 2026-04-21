@@ -1,0 +1,25 @@
+{
+  "name": "otzar-kodesh",
+  "version": "1.0.0",
+  "description": "Sacred Treasury - Academically validated Kabbalah computation engine",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.73",
+    "@types/react-dom": "^18.2.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}

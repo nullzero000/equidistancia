@@ -1,0 +1,252 @@
+.color-spectrum-container {
+  padding: 40px 20px;
+}
+
+.spectrum-core {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto 60px;
+}
+
+.gematria-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.gematria-value {
+  font-size: 72px;
+  font-weight: 200;
+  color: #ffffff;
+  font-family: monospace;
+}
+
+.gematria-reduced {
+  font-size: 32px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: monospace;
+}
+
+.floating-letters {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.floating-letter {
+  position: absolute;
+  font-size: 28px;
+  font-family: serif;
+  font-weight: 200;
+  transform: translate(-50%, -50%);
+  animation: float-pulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px currentColor);
+}
+
+@keyframes float-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.spectrum-breakdown {
+  margin-bottom: 40px;
+}
+
+.spectrum-breakdown h3 {
+  font-size: 24px;
+  color: #00d9ff;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.color-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.color-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.color-letters {
+  font-size: 20px;
+  font-family: serif;
+  flex: 1;
+}
+
+.color-percentage {
+  font-size: 16px;
+  font-family: monospace;
+  color: var(--text-secondary);
+}
+
+.color-bar-track {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.color-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 20px currentColor;
+}
+
+.dominant-color-card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px;
+  border: 2px solid;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.dominant-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.dominant-letters {
+  font-size: 48px;
+  font-family: serif;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 20px currentColor);
+}
+
+.dominant-info {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .spectrum-core {
+    width: 350px;
+    height: 350px;
+  }
+  
+  .gematria-circle {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .gematria-value {
+    font-size: 56px;
+  }
+  
+  .floating-letter {
+    font-size: 20px;
+  }
+}
+
+.mixed-color-result {
+  margin-bottom: 60px;
+}
+
+.mixed-color-result h3 {
+  font-size: 24px;
+  color: #00d9ff;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.mixed-color-display {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+}
+
+.mixed-color-swatch {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 40px currentColor;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.mixed-color-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mixed-color-name {
+  font-size: 28px;
+  color: #ffffff;
+  font-weight: 300;
+}
+
+.mixed-color-hex {
+  font-size: 18px;
+  font-family: monospace;
+  color: var(--text-secondary);
+}
+
+.mixed-color-formula {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+}
+
+.formula-part {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .mixed-color-display {
+    flex-direction: column;
+    text-align: center;
+  }
+}

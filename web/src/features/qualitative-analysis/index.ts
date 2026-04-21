@@ -1,0 +1,1 @@
+export { QualitativeAnalysis } from './QualitativeAnalysis';

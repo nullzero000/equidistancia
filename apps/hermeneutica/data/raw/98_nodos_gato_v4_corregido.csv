@@ -1,0 +1,99 @@
+Nodo_ID,Poeta,Ref,excerpt_orig,excerpt_esp,Fuente,Tema_Nodo,Rel_Kabbalah
+1,Platón,Tim. 92c,τὰ δὲ πτηνῶν γένη ἐξ ἀνθρώπων εὐηθῶν καὶ ἀδικῶν τὰς ψυχὰς γενομένων.,las razas de aves proceden de hombres simples e injustos en sus almas.,Perseus,Metempsicosis_Gato,Nefesh→Ish
+2,Platón,Tim. 30c,ἀτελὲς γὰρ οὐδὲν ποτ᾽ ἂν γένοιτο καλόν.,nada imperfecto podría jamás llegar a ser bello.,Perseus,Belleza_Felina,Tiferet_Gato
+3,Leopardi,A se stesso v1,"Or poserai per sempre, stanco mio cor.","O reposarás para siempre, corazón mío cansado.",Wikisource,Cansancio_Gato,Malkhut
+4,Leopardi,A se stesso v2,"E dopo tanto penar, è fango il mondo.","Y tras tanto penar, fango es el mundo.",Wikisource,Engaño_Felino,Hod_Yesod
+5,Goethe,Versuch §9,Nach und nach bildet sich die Pflanze aus.,Poco a poco se forma la planta.,Wikisource,Metamorf_Gato,Netzach_Piel
+6,Goethe,Metam. §15,Sie bildet zu Blüten und Frucht.,Se forma en flores y frutos.,Wikisource,Flor_Felina,Chesed
+7,Goethe,Metam. §76,Stufenweise geführt von Blatt zu Blatt.,Guiada paso a paso de hoja a hoja.,Wikisource,Ascenso_Gato,Tiferet
+8,Aristóteles,HA I.4 489a25,"τὰ μόρια τὰ μὲν κοινὰ πάντων, τὰ δὲ ἴδια ἑκάστοις.","las partes unas comunes a todos, otras propias de cada uno.",Perseus,Cuerpo_Gato,Binah_Forma
+9,Baudelaire,Le Chat LI v1,"Viens, mon beau chat, sur mon cœur amoureux.","Ven, mi bello gato, sobre mi corazón enamorado.",Wikisource,Eros_Gato,Yesod_Directo
+10,Baudelaire,Le Chat LI v2,"Viens, mon beau chat, retiens les griffes.","Ven, mi bello gato, contiene tus garras.",Wikisource,Garras_Felinas,Gevurah
+11,Blake,The Tyger,Could frame thy fearful symmetry?,¿Podría enmarcar tu temible simetría?,PoetryFoundation,Tyger_Gato,Gevurah_Simetría
+12,Aristóteles,HA I.1 487b30,τὰ μόρια τὰ μὲν κοινὰ πάντων ἐστίν.,las partes comunes a todos los animales están presentes.,Perseus,Forma_Gato,Chochmah
+13,Heráclito,DK B123,φύσις φιλεῖ κρύπτεσθαι.,la φύσις ama ocultarse.,DK,Physis_Gato,Ayin_EinSof
+14,Laozi,Dao De Jing 33 (Wang Bi),知人者智，自知者明。勝人者有力，自勝者強。,"Quien conoce a otros es sabio, quien se conoce es lúcido. Quien vence a otros tiene fuerza, quien se vence a sí tiene poder.",CText Wang Bi,Sabio_Gato,Da'at_Nefesh
+15,Ovidio,Met. I.84,pronaque cum spectent animalia cetera terram,mientras los demás animales miran hacia la tierra inclinados,Latin Library,Postura_Animal,Malkhut_Tierra
+16,Ovidio,Met. I.85,os homini sublime dedit caelumque videre,dio al hombre rostro sublime para ver el cielo,Latin Library,Rostro_Hombre,Chochmah_Vista
+17,Shakespeare,King Lear III.6,"Let them anatomise Regan, see what breeds about her heart.","Que la anatomizen, vean qué cría en torno a su corazón.",MIT,Anatomía_Corazón,Binah_Regan
+18,Goethe,Faust I,"Habe nun, ach! Philosophie, Juristerei und Medizin.","He estudiado filosofía, jurisprudencia y medicina.",Wikisource,Saber_Humano,Da'at_Tres
+19,Kafka,Die Verwandlung,"Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheuren Ungeziefer verwandelt.",Gregorio Samsa se despertó una mañana convertido en un enorme insecto.,Gutenberg,Transformación,Tiferet_Insecto
+20,Baudelaire,Le Chat LI,De palper ton corps électrique et doux.,Palpar tu cuerpo eléctrico y suave.,Wikisource,Cuerpo_Eléctrico,Netzach_Tacto
+21,Rilke,Der Panther I,Sein Blick vom Vorübergehn der Stäbe wird so müde dass er nichts mehr hält.,"Su mirada, del paso de los barrotes, se vuelve tan cansada que no retiene nada.",Poetica,Mirada_Barrotes,Hod_Visio
+22,Rilke,Der Panther II,"sein Blick, vom Vorübergehn der Stäbe, wird so müde dass er nichts mehr hält.",su mirada del pasar los barrotes se cansa tanto que nada contiene.,Poetica,Fatiga_Mirada,Yesod_Cárcel
+23,Heráclito,DK B50,"Οὐκ ἐμοῦ, ἀλλὰ τοῦ λόγου ἀκούσαντας ὁμολογεῖν σοφόν ἐστιν ἓν πάντα εἶναι.","No a mí, sino al logos habiendo escuchado, es sabio convenir en que todo es uno.",DK (Sext. Adv. math. VII 132),Unidad_Sabiduría,EinSof
+24,Spinoza,Ética I.14 Cor1 (Gebhardt),"Deum esse unicum, hoc est unam solam substantiam","Dios es único, es decir, una sola sustancia",Latin Library,Sustancia_Única,Keter
+25,Rilke,Der Panther III,großer Wille steht gebannt in ihm,gran voluntad está aprisionada en él,Poetica,Voluntad_Prisionera,Gevurah_Voluntad
+26,Rilke,Der Panther IV,Vorhang der Pupille lautlos aufgezogen,cortina de la pupila sin ruido alzada,Poetica,Pupila_Cortina,Chochmah_Ojo
+27,Parménides,DK B8.6,οὐκ ἔστιν ἕτερον οὐδὲν ὥστε μία,no existe nada diferente como para ser una,DK,Unidad_Absoluta,Yachid
+28,Spinoza,Ética I.14 (Gebhardt),Praeter Deum nulla potest substantia aut concipi aut esse.,Fuera de Dios ninguna sustancia puede concebirse o existir.,Latin Library,Ninguna_Sustancia,EinSof_Sola
+29,Platón,Tim. 92c var,τὰ δὲ πτηνῶν γένη ἐξ ἀνδρῶν.,los géneros de aves de hombres.,Perseus,Aves_Hombres,Ruach_Ala
+30,Blake,Auguries of Innocence v1,To see a World in a Grain of Sand.,Ver un Mundo en un Grano de Arena.,PoetryFoundation,Microcosmos,Tiferet_Macro
+31,Platón,Tim. 41d,"θεῶν τῶν νεωτέρων δημιουργὸν καὶ πατέρα, οὗδὲν εἰπεῖν ῥητὸν ἀνθρώποις.","creador y padre de los dioses más jóvenes, del cual no es lícito decir nada a los hombres.",Perseus,Demiurgo_Padre,Abba_Keter
+32,Heráclito,DK B1,τὰ δὲ πάντα οἰακίζει λόγος.,el logos gobierna todas las cosas.,DK,Logos_Gobernante,Memra
+33,Parménides,DK B8.50,τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.,pues lo mismo es pensar y ser.,DK,Pensar_Ser,Moach_Neshama
+34,Empédocles,DK B17,οὐκ ἀπολείψει τὸν φύλοπα μῦθον.,no abandonará el mito al amigo.,DK,Mito_Amigo,Sod
+35,Aristóteles,Phys. II.1 192b20,φύσις ἐστὶν ἑκάστου τῶν ἐχόντων ἐν αὑτοῖς ἀρχὴν κινήσεως καὶ στάσεως.,"La naturaleza es, de cada uno de los que tienen en sí mismos, principio de movimiento y reposo.",Perseus (Bekker 192b20-23),Physis_Causa,Yesod_Naturaleza
+36,Goethe,Faust I,"Zwei Seelen wohnen, ach! in meiner Brust.","Dos almas habitan, ¡ay!, en mi pecho.",Wikisource,Dos_Almas,Nefesh_Ruach
+37,Leopardi,L'Infinito,Sempre caro mi fu quest'ermo colle.,Siempre caro me fue este collado erial.,Wikisource,Infinito_Colina,EinSof
+38,Baudelaire,Spleen IV,"Pluviôse, irrité contre la ville entière.","Pluvioso, irritado contra la ciudad entera.",Wikisource,Spleen_Urbano,Gevurah_Ciudad
+39,Rilke,Duino I,"Wer, wenn ich schriee, hörte mich denn aus der Engel Ordnungen?","¿Quién, si gritara, me oiría de las órdenes de los ángeles?",Poetica,Grito_Ángeles,Metatrón
+40,Blake,Proverbs of Hell,The road of excess leads to the palace of wisdom.,El camino del exceso lleva al palacio de la sabiduría.,PoetryFoundation,Exceso_Sabiduría,Chesed_Gevurah
+41,Ovidio,Met. XV.165,"Omnia mutantur, nihil interit.","Todo cambia, nada perece.",Latin Library,Cambio_Permanencia,Netzach_Hod
+42,Spinoza,Ética II.7,Ordo et connexio idearum idem est ac ordo et connexio rerum.,El orden y conexión de las ideas es el mismo que el orden y conexión de las cosas.,Latin Library,Ideas_Cosas,Binah
+43,Laozi,Dao De Jing 1,道可道，非常道。名可名，非常名。,El dao que puede dao-izarse no es el dao eterno. El nombre que puede nombrarse no es el nombre eterno.,CText Wang Bi,Dao_Innombrable,Ayin
+44,Kafka,Brief an Oskar Pollak (27.I.1904),Ein Buch soll die Axt sein für das gefrorene Meer in uns.,Un libro debe ser el hacha para el mar congelado dentro de nosotros.,Kafka Briefe 1902-1924 (Fischer),Libro_Hacha,Da'at_Mareado
+45,Shakespeare,Hamlet I.5,Something is rotten in the state of Denmark.,Algo está podrido en el estado de Dinamarca.,MIT,Podredumbre_Estado,Tiferet_Corrupta
+46,Platón,Rep. 514a,ἴδωμεν τὴν ἀλήθειαν.,Veamos la verdad.,Perseus,Verdad_Sole,Chochmah
+47,Heráclito,DK B88,ὁμολογέουσιν ἀλλήλοισι πάντα τά γιγνόμενα.,todas las cosas que acontecen concuerdan entre sí.,DK,Concordancia,Harmonia
+48,Aristóteles,Met. A.2 982b12,διὰ γὰρ τὸ θαυμάζειν οἱ ἄνθρωποι καὶ νῦν καὶ τὸ πρῶτον ἤρξαντο φιλοσοφεῖν.,"Pues por el asombro los hombres, ahora y al principio, comenzaron a filosofar.",Perseus (Bekker 982b12-13),Asombro_Filosofar,Mahut
+49,Goethe,Metam. Pflanzen,Die Blätter in der Knospe vereint.,Las hojas unidas en el brote.,Wikisource,Hojas_Brote,Yesod_Unidad
+50,Rilke,Sonette I Orpheus,Ein Baum stieg auf. O reine Übersteigung!,Un árbol se elevó. ¡Oh pura superación!,Poetica,Árbol_Superación,Netzach
+51,Baudelaire,Correspondances,"Les parfums, les couleurs et les sons se répondent.","Los perfumes, los colores y los sonidos se responden.",Wikisource,Sinestesia,Netzach_Hod
+52,Leopardi,A Silvia,"Silvia, rimembri ancora quel tempo della tua vita.","Silvia, ¿recuerdas aún aquel tiempo de tu vida?",Wikisource,Recuerdo_Silvia,Binah_Memoria
+53,Blake,Jerusalem,And did those feet in ancient time walk upon Englands mountains green?,¿Y pisaron esos pies en tiempo antiguo las verdes montañas de Inglaterra?,PoetryFoundation,Pies_Antiguos,Malkhut_Inglaterra
+54,Ovidio,Met. I.21,Iamque erat omnis sterilis Tellus.,Ya la tierra entera era estéril.,Latin Library,Tierra_Estéril,Gevurah_Sequía
+55,Spinoza,Ética V.42,Beatitudo non est virtutis passio.,La beatitud no es pasión de la virtud.,Latin Library,Beatitud_Virtud,Chochmah_Neshamah
+56,Parménides,DK B6.1,χρεὼν τὸ λέγειν τε νοεῖν τ᾽ ἐόν ἐμμέναι.,Necesario es decir y pensar que el ser persiste.,DK,Necesidad_Ser,Yachid
+57,Heráclito,DK B9,ὄνοι σύρματ᾽ ἂν ἕλοιντο μᾶλλον ἢ χρυσόν.,Los burros elegirían paja antes que oro.,DK (Aristóteles EN X.5 1176a7),Hombres_Asnos,Nefesh_Animal
+58,Platón,Tim. 69b,τὰ δὲ θρεμμάτων γένη ἐξ ἀνδρῶν πονηρῶν.,Los géneros de bestias de hombres malvados.,Perseus,Bestias_Malvados,Ruach_Bestial
+59,Aristóteles,De An. II.1 412a,ψυχὴ γὰρ οὐσία τις τῶν δεχομένων τὸ εἶναι.,El alma es una cierta esencia de lo que tiene posibilidad de ser.,Perseus,Alma_Esencia,Neshama
+60,Goethe,Faust II,Das Ewig-Weibliche zieht uns hinan.,Lo eterno-femenino nos atrae hacia arriba.,Wikisource,Femenino_Eterno,Shejiná
+61,Plotino,Enn. III.8.10,τὰ πάντα ὡς ἓν ζῶν καὶ πάντα ὡς πολλὰ ζῶντα.,Todo como un ser vivo y todo como muchos seres vivos.,Perseus,Todo_Uno,Kol
+62,Anaximandro,DK 12 B1,"ἐξ ὧν δὲ ἡ γένεσίς ἐστι τοῖς οὖσι, καὶ τὴν φθοράν εἰς ταῦτα γίνεσθαι κατὰ τὸ χρεών.","De donde las cosas tienen su nacimiento, allí tiene lugar también su destrucción, según la necesidad.","DK (Simplicio, Fís. 24,13)",Génesis_Destrucción,EinSof
+63,Platón,Fedro 245c5,Ψυχὴ πᾶσα ἀθάνατος. τὸ γὰρ ἀεικίνητον ἀθάνατον.,Toda alma es inmortal. Pues lo que se mueve siempre es inmortal.,Perseus (Stephanus/Burnet OCT),Alma_Inmortal,Ruach_Pteron
+64,Heráclito,DK B30,σύμβολα πάντων ὁμολογέοντα.,Señales de todo que concuerdan.,DK,Señales_Concordes,Ot
+65,Empédocles,DK B112.4,"χαίρετ᾽· ἐγὼ δ᾽ ὑμῖν θεὸς ἄμβροτος, οὐκέτι θνητός.","¡Salud! Yo para vosotros soy un dios inmortal, ya no mortal.",DK (Diog. Laert. VIII.62),Dios_Mortal,Nefesh_Guerrera
+66,Aristóteles,GC I.1 314a,γένεσις καὶ φθορά τῶν ἐναντίων.,Generación y corrupción de los contrarios.,Perseus,Gen_Corrupción,Chesed_Gevurah
+67,Goethe,Faust I,Des Menschen Tätigkeit kann allzu leicht erschlaffen.,La actividad humana puede languidecer demasiado fácilmente.,Wikisource,Actividad_Languidece,Netzach_Fatiga
+68,Rilke,Duineser Elegien VIII.1,Mit allen Augen sieht die Kreatur das Offene.,Con todos los ojos la criatura ve lo Abierto.,Poetica (Insel 1923),Criatura_Abierto,Tiferet_Über
+69,Baudelaire,Invitation au Voyage,Voyage à Cythère.,Viaje a Citerea.,Wikisource,Viaje_Citera,Yesod_Isla
+70,Leopardi,L'Infinito v2,ben lungi a chiudersi in quel limite,bien lejos de cerrarse en ese confín,Wikisource,Infinito_Límite,EinSof_Límite
+71,Ovidio,Met. I.5,Ante mare et terras et quod tegit omnia caelum.,Antes del mar y las tierras y el cielo que todo lo cubre.,Latin Library,Antes_Todo,Bereshit
+72,Heráclito,DK B53,πόλεμος πάντων μὲν πατήρ ἐστι.,La guerra es padre de todas las cosas.,DK,Guerra_Padre,Gevurah_Din
+73,Spinoza,Ética III.6,"Unaquaeque res, quantum in se est, in suo esse perseverare conatur.","Cada cosa, en cuanto es en sí, se esfuerza por perseverar en su ser.",Latin Library,Conatus_Ser,Netzach_Conatus
+74,Aristóteles,Poet. 1451a,"τὰ γενόμενα λέγειν, τοῦτο οὐ ποιητοῦ ἔργον ἐστίν.",Decir lo que ha sucedido no es obra del poeta.,Perseus,Poeta_Obra,Tiferet_Poiesis
+75,Blake,The Marriage of Heaven and Hell,Without Contraries is no progression.,Sin Contrarios no hay progresión.,PoetryFoundation,Contrarios_Progresión,Chesed_Gevurah
+76,Platón,Symp. 210a,τὸ καλὸν πρῶτον μὲν ἀεὶ ὂν.,lo bello primero siempre siendo.,Perseus,Belleza_Eterna,Tiferet_Kalón
+77,Goethe,Faust I,Werd ich zum Augenblicke sagen: Verweile doch! du bist so schön!,Si al instante dijera: ¡Detente! ¡Eres tan bello!,Wikisource,Instante_Bello,Netzach_Momento
+78,Leopardi,La ginestra v1,Qui su l'arida schiena del formidabil monte.,Aquí sobre la árida espalda del formidable monte.,Wikisource,Monte_Árido,Malkhut_Desierto
+79,Heráclito,DK B90,πυρὸς ἀνταμοιβὴ τὰ πάντα καὶ πῦρ ἁπάντων.,Todas las cosas son intercambio del fuego y el fuego de todas.,DK,Fuego_Todo,EinSof_Fuego
+80,Baudelaire,"Les Fleurs du mal, Au Lecteur","Hypocrite lecteur, — mon semblable, — mon frère!","¡Hipócrita lector, — mi semejante, — mi hermano!",Wikisource,Lector_Hermano,Nefesh_Espejo
+81,Ovidio,Met. III.339,"Iste ego sum: sensi, nec me mea fallit imago.","Ese soy yo: lo sentí, y no me engaña mi imagen.",Latin Library,Narciso_Imagen,Hod_Reflejo
+82,Rilke,Duino II,Jeder Engel ist schrecklich.,Todo ángel es terrible.,Poetica,Ángel_Terrible,Gevurah_Ángel
+83,Shakespeare,The Tempest IV.1,We are such stuff as dreams are made on.,Somos de la misma materia de la que están hechos los sueños.,MIT,Materia_Sueños,Yesod_Sueño
+84,Parménides,DK B8.3,οὔτε γὰρ ἂν γνοίης τό γε μὴ ἐόν.,pues no podrías conocer lo que no es.,DK,No_Ser,Ayin
+85,Plotino,Enn. V.1.6,πάντα ἐκεῖ καὶ πάντα ἐνταῦθα.,Todo allí y todo aquí.,Perseus,Todo_Aquí_Allí,Kol_Shaveh
+86,Aristóteles,De An. III.4 429a,ὁ νοῦς ἐστί πως πάντα.,el intelecto es en cierto modo todas las cosas.,Perseus,Intelecto_Todo,Chochmah_Nous
+87,Goethe,Faust II,Alles Vergängliche ist nur ein Gleichnis.,Todo lo perecedero es solo un símbolo.,Wikisource,Perecedero_Símbolo,Malkhut_Mashal
+88,Blake,Auguries of Innocence v3,A Robin Red breast in a Cage puts all Heaven in a Rage.,Un petirrojo en una jaula enfurece a todo el Cielo.,PoetryFoundation,Jaula_Cielo,Gevurah_Jaula
+89,Leopardi,Canto notturno,"Che fai tu, luna, in ciel? dimmi, che fai, silenziosa luna?","¿Qué haces tú, luna, en el cielo? Dime, ¿qué haces, silenciosa luna?",Wikisource,Luna_Silenciosa,Yesod_Luna
+90,Baudelaire,L'Albatros,Ses ailes de géant l'empêchent de marcher.,Sus alas de gigante le impiden caminar.,Wikisource,Alas_Gigante,Nefesh_Albatros
+91,Heráclito,DK B101,ἐδιζησάμην ἐμεωυτόν.,Me busqué a mí mismo.,DK,Búsqueda_Sí,Da'at_Reflexión
+92,Spinoza,Ética IV Praef.,Exemplar naturae humanae.,Modelo de la naturaleza humana.,Latin Library,Modelo_Humano,Tiferet_Adam
+93,Shakespeare,Hamlet III.1,"To be, or not to be, that is the question.","Ser o no ser, esa es la cuestión.",MIT,Ser_NoSer,Keter_Ayin
+94,Rilke,Duino IX,"Erde, ist es nicht dies, was du willst: unsichtbar in uns erstehn?","Tierra, ¿no es esto lo que quieres: resurgir invisible en nosotros?",Poetica,Tierra_Invisible,Malkhut_Aliyah
+95,Platón,Rep. 508b,τὸ τοῦ ἀγαθοῦ ἰδέαν.,la idea del Bien.,Perseus,Idea_Bien,Keter_Tov
+96,Ovidio,Met. XV.871,"Iamque opus exegi, quod nec Iovis ira nec ignis.",Ya terminé una obra que ni la ira de Júpiter ni el fuego.,Latin Library,Obra_Eterna,Netzach_Opus
+97,Leopardi,Il sabato del villaggio,Dolce e chiara è la notte e senza vento.,Dulce y clara es la noche y sin viento.,Wikisource,Noche_Dulce,Yesod_Shabat
+98,Blake,The Chimney Sweeper,Weep! weep! in notes of woe!,¡Llora! ¡llora! en notas de dolor!,PoetryFoundation,Limpiachimeneas_Lloro,Rachamim_Llanto

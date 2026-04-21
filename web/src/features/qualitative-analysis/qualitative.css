@@ -1,0 +1,458 @@
+/* ═══════════════════════════════════════════════════════════
+   QUALITATIVE ANALYSIS - CLASSICAL KABBALAH
+   ═══════════════════════════════════════════════════════════ */
+
+.qualitative-container {
+  padding: 20px 0;
+}
+
+.qualitative-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.qualitative-header h2 {
+  font-size: 36px;
+  font-weight: 200;
+  color: #00d9ff;
+  margin-bottom: 12px;
+  letter-spacing: 0.1em;
+}
+
+.qualitative-subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+/* Level Selector */
+.level-selector {
+  margin-bottom: 32px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.level-selector label {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.level-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.level-badge {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-badge:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.5);
+}
+
+.level-badge.active {
+  background: rgba(0, 217, 255, 0.15);
+  border-color: #00d9ff;
+  color: #00d9ff;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.sod-marker {
+  font-family: serif;
+  font-size: 11px;
+  padding: 2px 6px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 4px;
+  color: #ffd700;
+}
+
+/* Current Text Display */
+.current-text-display {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: rgba(184, 79, 255, 0.05);
+  border: 1px solid rgba(184, 79, 255, 0.2);
+  border-radius: 12px;
+}
+
+.text-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-hebrew {
+  font-size: 48px;
+  font-family: serif;
+  font-weight: 200;
+  color: #b84fff;
+  text-align: center;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 20px rgba(184, 79, 255, 0.4));
+}
+
+.text-stats {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: monospace;
+}
+
+/* Analysis Sections */
+.analysis-section {
+  margin-bottom: 40px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.analysis-section h3 {
+  font-size: 24px;
+  font-weight: 300;
+  color: #00d9ff;
+  margin-bottom: 16px;
+}
+
+.section-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.analysis-section.highlight {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.analysis-section.highlight h3 {
+  color: #ffd700;
+}
+
+/* Frequency Chart */
+.frequency-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.frequency-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.freq-letter {
+  font-size: 36px;
+  font-family: serif;
+  font-weight: 200;
+  width: 50px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.freq-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.freq-name {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.freq-bar-container {
+  width: 100%;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.freq-bar {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 20px currentColor;
+}
+
+.freq-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+/* Gematria Display */
+.gematria-display {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.gematria-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.value-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.value-number {
+  font-size: 48px;
+  font-family: monospace;
+  font-weight: 300;
+  color: #00d9ff;
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+}
+
+/* Divine Names */
+.divine-names-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.divine-name-card {
+  padding: 12px 20px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  color: #ffd700;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+/* Organs List */
+.organs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.organ-card {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Elements Grid */
+.elements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.element-card {
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.element-card.present {
+  background: rgba(0, 217, 255, 0.1);
+  border: 2px solid rgba(0, 217, 255, 0.3);
+}
+
+.element-card.absent {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+}
+
+.element-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.element-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.element-letters {
+  font-size: 20px;
+  font-family: serif;
+  color: #00d9ff;
+}
+
+.element-status {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Zodiac List */
+.zodiac-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.zodiac-card {
+  padding: 12px 20px;
+  background: rgba(184, 79, 255, 0.1);
+  border: 1px solid rgba(184, 79, 255, 0.3);
+  border-radius: 8px;
+  color: #b84fff;
+  font-size: 15px;
+}
+
+/* Interpretation */
+.analysis-section.interpretation {
+  background: rgba(0, 217, 255, 0.05);
+  border-color: rgba(0, 217, 255, 0.2);
+}
+
+.interpretation-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.8;
+}
+
+/* Meditation Guide */
+.analysis-section.meditation-guide {
+  background: rgba(184, 79, 255, 0.05);
+  border-color: rgba(184, 79, 255, 0.2);
+}
+
+.meditation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.meditation-step {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border-left: 3px solid #b84fff;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  background: rgba(184, 79, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b84fff;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+.step-content strong {
+  color: #ffffff;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.meditation-source {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Disclaimer */
+.disclaimer {
+  margin-top: 40px;
+  padding: 24px;
+  background: rgba(255, 165, 0, 0.05);
+  border: 1px solid rgba(255, 165, 0, 0.2);
+  border-radius: 12px;
+}
+
+.disclaimer h4 {
+  font-size: 18px;
+  color: #ffa500;
+  margin-bottom: 12px;
+}
+
+.disclaimer p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.disclaimer strong {
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .text-hebrew {
+    font-size: 36px;
+  }
+  
+  .freq-letter {
+    font-size: 28px;
+    width: 40px;
+  }
+  
+  .value-number {
+    font-size: 36px;
+  }
+  
+  .elements-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .gematria-display {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,269 @@
+/* ═══════════════════════════════════════════════════════════
+   SEFIROT TREE COMPONENT
+   ═══════════════════════════════════════════════════════════ */
+
+.sefirot-container {
+  margin: 60px 0;
+  padding: 40px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.sefirot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.sefirot-title {
+  font-size: 36px;
+  font-weight: 200;
+  color: #00d9ff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sefirot-toggle {
+  display: flex;
+  gap: 12px;
+}
+
+.sefirot-toggle button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+}
+
+.sefirot-toggle button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.3);
+}
+
+.sefirot-toggle button.active {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: #00d9ff;
+  color: #00d9ff;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+.sefirot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.sefirah-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sefirah-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.5;
+}
+
+.sefirah-card.pillar-right::before {
+  background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+}
+
+.sefirah-card.pillar-left::before {
+  background: linear-gradient(90deg, transparent, #b84fff, transparent);
+}
+
+.sefirah-card.pillar-middle::before {
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+.sefirah-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 217, 255, 0.2);
+}
+
+.sefirah-number {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 48px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.1);
+  font-family: monospace;
+}
+
+.sefirah-name-en {
+  font-size: 24px;
+  font-weight: 300;
+  color: #00d9ff;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sefirah-name-he {
+  font-size: 32px;
+  font-family: serif;
+  font-weight: 200;
+  color: #ffffff;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.3));
+}
+
+.sefirah-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(0, 217, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.detail-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  color: #00d9ff;
+  font-weight: 400;
+}
+
+.sefirah-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.sefirot-footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.sefirot-footer p {
+  margin: 8px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sefirot-container {
+    padding: 24px;
+  }
+
+  .sefirot-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .sefirot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sefirot-title {
+    font-size: 28px;
+  }
+}
+/* Action Buttons */
+.sefirot-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.sefirot-action-btn {
+  flex: 1;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, 
+    rgba(0, 217, 255, 0.1) 0%,
+    rgba(184, 79, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.sefirot-action-btn:hover {
+  background: linear-gradient(135deg, 
+    rgba(0, 217, 255, 0.2) 0%,
+    rgba(184, 79, 255, 0.2) 100%
+  );
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 217, 255, 0.3);
+  border-color: rgba(0, 217, 255, 0.4);
+}
+
+.sefirot-action-btn .btn-icon {
+  font-size: 20px;
+}
+
+.sefirot-action-btn.meditation {
+  border-color: rgba(184, 79, 255, 0.3);
+}
+
+.sefirot-action-btn.knowledge {
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.sefirot-action-btn.meditation:hover {
+  box-shadow: 0 12px 40px rgba(184, 79, 255, 0.3);
+  border-color: rgba(184, 79, 255, 0.5);
+}
+
+.sefirot-action-btn.knowledge:hover {
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sefirot-actions {
+    flex-direction: column;
+  }
+}

@@ -29,7 +29,9 @@ BOOK_ORDER: list[tuple[str, str]] = [
 _HTML_TAG     = re.compile(r"<[^>]+>")
 _HTML_ENTITY  = re.compile(r"&\w+;")
 _PARASHA_MARK = re.compile(r"\{[פסרנ]\}")
-_NON_HEBREW   = re.compile(r"[^\u05D0-\u05EA]")  # solo bloque hebreo
+_NON_HEBREW = re.compile(r"[^\u05D0-\u05EA]")
+_WORD_SEP   = re.compile(r"[\s\u05BE\u05C0\u05C3\u05C6]+")
+# whitespace | maqaf (U+05BE) | paseq (U+05C0) | sof-pasuq (U+05C3) | nun-hafucha (U+05C6)
 
 
 def _clean(text: str) -> str:
@@ -42,7 +44,7 @@ def _clean(text: str) -> str:
 def _tokenize(verse_text: str) -> list[str]:
     clean = _clean(verse_text)
     tokens = []
-    for token in clean.split():
+    for token in _WORD_SEP.split(clean):
         hebrew_only = _NON_HEBREW.sub("", token)
         if hebrew_only:
             tokens.append(hebrew_only)

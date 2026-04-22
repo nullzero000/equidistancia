@@ -1,12 +1,14 @@
 import json
 import logging
-import re
 from pathlib import Path
 
 from sqlalchemy.orm import Session
 
 from src.infrastructure.schema import Book, Verse, Word, get_engine, init_db
 from src.logic.gematria import gs, milui, normalize, strip_niqqud
+from src.logic.cleaning.policy import CleaningPolicy, GEMATRIA_POLICY
+from src.logic.cleaning.tokenizer import tokenize
+from src.logic.cleaning.separators import HTML_TAG, HTML_ENTITY, PARASHA_MARK
 
 logger = logging.getLogger(__name__)
 
@@ -26,29 +28,12 @@ BOOK_ORDER: list[tuple[str, str]] = [
     ("I Chronicles","דברי הימים א"),("II Chronicles","דברי הימים ב"),
 ]
 
-_HTML_TAG     = re.compile(r"<[^>]+>")
-_HTML_ENTITY  = re.compile(r"&\w+;")
-_PARASHA_MARK = re.compile(r"\{[פסרנ]\}")
-_NON_HEBREW = re.compile(r"[^\u05D0-\u05EA]")
-_WORD_SEP   = re.compile(r"[\s\u05BE\u05C0\u05C3\u05C6]+")
-# whitespace | maqaf (U+05BE) | paseq (U+05C0) | sof-pasuq (U+05C3) | nun-hafucha (U+05C6)
 
-
-def _clean(text: str) -> str:
-    text = _HTML_TAG.sub("", text)
-    text = _HTML_ENTITY.sub("", text)
-    text = _PARASHA_MARK.sub("", text)
+def _clean_for_storage(text: str) -> str:
+    text = HTML_TAG.sub("", text)
+    text = HTML_ENTITY.sub("", text)
+    text = PARASHA_MARK.sub("", text)
     return text
-
-
-def _tokenize(verse_text: str) -> list[str]:
-    clean = _clean(verse_text)
-    tokens = []
-    for token in _WORD_SEP.split(clean):
-        hebrew_only = _NON_HEBREW.sub("", token)
-        if hebrew_only:
-            tokens.append(hebrew_only)
-    return tokens
 
 
 def ingest_book(
@@ -57,6 +42,7 @@ def ingest_book(
     book_name_en: str,
     book_name_he: str,
     order: int,
+    policy: CleaningPolicy = GEMATRIA_POLICY,
     compute_milui: bool = False,
 ) -> None:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -77,12 +63,12 @@ def ingest_book(
                 book_id=book.id,
                 chapter=chap_idx,
                 verse=verse_idx,
-                text_he=_clean(verse_text),
+                text_he=_clean_for_storage(verse_text),
             )
             session.add(verse)
             session.flush()
 
-            for pos, token in enumerate(_tokenize(verse_text)):
+            for pos, token in enumerate(tokenize(verse_text, policy)):
                 norm = normalize(token)
                 if len(norm) < 2:  # descartar tokens de 1 letra (prefijos sueltos)
                     continue
@@ -101,6 +87,7 @@ def ingest_book(
 def run(
     source_dir: str,
     db_url: str = "sqlite:///data/processed/tanakh.db",
+    policy: CleaningPolicy = GEMATRIA_POLICY,
     compute_milui: bool = False,
 ) -> None:
     engine = get_engine(db_url)
@@ -113,7 +100,7 @@ def run(
             if not candidates:
                 logger.warning("Not found: %s", name_en)
                 continue
-            ingest_book(session, candidates[0], name_en, name_he, order, compute_milui)
+            ingest_book(session, candidates[0], name_en, name_he, order, policy, compute_milui)
         session.commit()
 
     logger.info("Ingestion complete.")

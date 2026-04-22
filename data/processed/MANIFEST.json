@@ -1,12 +1,24 @@
 {
-  "db_file": "tanakh.db",
-  "sha256": "db92538edf0cee647d3662a3cedf9279564161d0d753062ff56b3a5a1801f0a3",
-  "ingestor_commit": "4d52d68",
+  "ingestor_commit": "HEAD",
   "source": "Sefaria-Export/json/Tanakh",
-  "word_count": 306250,
   "verse_count": 23206,
   "book_count": 39,
-  "policy_version": "GEMATRIA_POLICY",
   "policy_module": "src.logic.cleaning.policy",
-  "notes": "Split on maqaf/paseq/sof-pasuq/nun-hafucha. Ginsburg 1894 reference ~305500 (+0.25%). Torah 80053 vs Ginsburg 79976 (+0.10%). Numbers delta -1.65% attributed to nun-hafucha in Num 10:35-36 and qere/ketiv variation."
+  "corpora": {
+    "tanakh.db": {
+      "policy": "GEMATRIA_POLICY",
+      "stream": "ketiv",
+      "collapse_finals": false,
+      "word_count": 305128,
+      "sha256": "80a9375b6ce6dd5c0863be50439991c60cbb85dcff0006b93a1b5cb5469de3b1"
+    },
+    "tanakh_qere.db": {
+      "policy": "GEMATRIA_QERE_POLICY",
+      "stream": "qere",
+      "collapse_finals": false,
+      "word_count": 305191,
+      "sha256": "f26fc8ccdfbcfcf6231264d3f44c1c89dd7bea596bf303a6413f82bb5f87d7d4"
+    }
+  },
+  "notes": "mam-kq spans (1047 verses, 36 books) now resolved per stream. Previous corpus (commit 4d52d68) had both forms as separate tokens. ketiv/qere diverge in word count by 63; Ginsburg reference ~305500 (+0.12% for ketiv). Torah invariants pass at 2% tolerance."
 }

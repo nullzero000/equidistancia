@@ -32,3 +32,8 @@ GEMATRIA_POLICY = CleaningPolicy(
     collapse_finals=False,
     stream="ketiv",
 )
+
+GEMATRIA_QERE_POLICY = CleaningPolicy(
+    collapse_finals=False,
+    stream="qere",
+)

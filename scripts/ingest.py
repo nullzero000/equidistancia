@@ -6,12 +6,13 @@ import argparse
 import logging
 
 from src.infrastructure.ingestion import run
-from src.logic.cleaning.policy import ELS_POLICY, GEMATRIA_POLICY
+from src.logic.cleaning.policy import ELS_POLICY, GEMATRIA_POLICY, GEMATRIA_QERE_POLICY
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
 POLICIES = {
     "gematria": GEMATRIA_POLICY,
+    "gematria-qere": GEMATRIA_QERE_POLICY,
     "els": ELS_POLICY,
 }
 

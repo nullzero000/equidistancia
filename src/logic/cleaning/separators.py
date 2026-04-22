@@ -16,3 +16,15 @@ WORD_SEP = re.compile(
 HTML_TAG     = re.compile(r"<[^>]+>")
 HTML_ENTITY  = re.compile(r"&\w+;")
 PARASHA_MARK = re.compile(r"\{[פסרנ]\}")
+
+# MAM ketiv/qere spans: <span class="mam-kq"><span class="mam-kq-k">(ketiv)</span>...<span class="mam-kq-q">[qere]</span></span>
+# Order of inner spans varies (k-then-q or q-then-k); ketiv wrapped in (), qere in []
+MAM_KQ = re.compile(
+    r'<span class="mam-kq">'
+    r'(?:<span class="mam-kq-[kq]">(?:\([^)]*\)|\[[^\]]*\])</span>)'
+    r'\s*'
+    r'(?:<span class="mam-kq-[kq]">(?:\([^)]*\)|\[[^\]]*\])</span>)'
+    r'</span>'
+)
+MAM_KQ_K = re.compile(r'<span class="mam-kq-k">\(([^)]*)\)</span>')
+MAM_KQ_Q = re.compile(r'<span class="mam-kq-q">\[([^\]]*)\]</span>')

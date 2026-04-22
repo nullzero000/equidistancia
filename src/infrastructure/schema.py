@@ -12,7 +12,7 @@ class Book(Base):
     id = Column(Integer, primary_key=True)
     name_he = Column(String(100), nullable=False)
     name_en = Column(String(100), nullable=False)
-    order = Column(Integer, nullable=False)
+    canonical_order = Column(Integer, nullable=False)
 
     verses = relationship("Verse", back_populates="book")
 

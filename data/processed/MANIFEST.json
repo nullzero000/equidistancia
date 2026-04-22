@@ -1,7 +1,7 @@
 {
   "db_file": "tanakh.db",
-  "sha256": "1c59d08d1e69714d7b7ba370c642556de2b65607e24fe9d9fcf29a15728241b6",
-  "ingestor_commit": "9c1a365",
+  "sha256": "db92538edf0cee647d3662a3cedf9279564161d0d753062ff56b3a5a1801f0a3",
+  "ingestor_commit": "HEAD",
   "source": "Sefaria-Export/json/Tanakh",
   "word_count": 306250,
   "verse_count": 23206,

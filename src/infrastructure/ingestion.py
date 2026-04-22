@@ -48,7 +48,7 @@ def ingest_book(
     data = json.loads(path.read_text(encoding="utf-8"))
     chapters_raw = data.get("text", [])
 
-    book = Book(name_en=book_name_en, name_he=book_name_he, order=order)
+    book = Book(name_en=book_name_en, name_he=book_name_he, canonical_order=order)
     session.add(book)
     session.flush()
 

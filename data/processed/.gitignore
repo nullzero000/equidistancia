@@ -1,0 +1,5 @@
+# Ignore DB files and backups, track only MANIFEST
+*.db
+*.db.*
+*.sqlite
+*.sqlite.*

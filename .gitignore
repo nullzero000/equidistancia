@@ -12,3 +12,4 @@ data/processed/*.sqlite.*
 .env
 *.log
 *.pid
+.claude/

@@ -1,11 +1,12 @@
 {
   "db_file": "tanakh.db",
   "sha256": "1c59d08d1e69714d7b7ba370c642556de2b65607e24fe9d9fcf29a15728241b6",
-  "ingestor_commit": "b7a3971e1a289573a05b225766893fad6636b40b",
+  "ingestor_commit": "9c1a365",
   "source": "Sefaria-Export/json/Tanakh",
   "word_count": 306250,
   "verse_count": 23206,
   "book_count": 39,
-  "policy_version": "v0-hardcoded",
+  "policy_version": "GEMATRIA_POLICY",
+  "policy_module": "src.logic.cleaning.policy",
   "notes": "Split on maqaf/paseq/sof-pasuq/nun-hafucha. Ginsburg 1894 reference ~305500 (+0.25%). Torah 80053 vs Ginsburg 79976 (+0.10%). Numbers delta -1.65% attributed to nun-hafucha in Num 10:35-36 and qere/ketiv variation."
 }

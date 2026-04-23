@@ -3,11 +3,15 @@
 A match with skip k is projected onto a grid of width |k|. Each row contains
 |k| consecutive characters of the motor. The matched letters appear aligned
 in a single column, forming the visible "word cross" of WRR.
+
+Input motor is bytes; output rows are str for human-readable display. The
+decode happens once up-front — projection is pure indexing afterward.
 """
+from src.logic.corpus.encoding import decode
 
 
 def matrix_projection(
-    motor: str,
+    motor: bytes,
     start: int,
     skip: int,
     context_rows: int = 3,
@@ -18,7 +22,7 @@ def matrix_projection(
     |skip| characters wide, padded with spaces at the edges of the motor.
 
     Args:
-        motor: consonantal motor string.
+        motor: consonantal motor as bytes (letter indices per encoding module).
         start: motor index of the first matched letter.
         skip: signed letter spacing of the match.
         context_rows: number of rows above and below the match span to include.
@@ -31,17 +35,15 @@ def matrix_projection(
     if skip == 0:
         raise ValueError("skip=0 has no matrix projection")
 
+    motor_str = decode(motor)
     width = abs(skip)
-    n = len(motor)
+    n = len(motor_str)
 
-    # Anchor: align so that start is at a column boundary
     col = start % width
-    # First character of the row containing start
     row_start_of_match = start - col
 
-    # Include context_rows rows before and after the match
     first_row = row_start_of_match - context_rows * width
-    last_row = row_start_of_match + context_rows * width  # inclusive start of last row
+    last_row = row_start_of_match + context_rows * width
 
     rows: list[str] = []
     r = first_row
@@ -50,7 +52,7 @@ def matrix_projection(
         for c in range(width):
             motor_idx = r + c
             if 0 <= motor_idx < n:
-                row_chars.append(motor[motor_idx])
+                row_chars.append(motor_str[motor_idx])
             else:
                 row_chars.append(" ")
         rows.append("".join(row_chars))

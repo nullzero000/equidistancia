@@ -10,10 +10,10 @@ _DB_PATHS: dict[str, Path] = {
 }
 
 # Populated at lifespan startup. Keys: stream names for which the DB exists.
-_corpora: dict[str, tuple[str, tuple[MotorWord, ...]]] = {}
+_corpora: dict[str, tuple[bytes, tuple[MotorWord, ...]]] = {}
 
 
-def get_corpus(stream: str) -> tuple[str, tuple[MotorWord, ...]] | None:
+def get_corpus(stream: str) -> tuple[bytes, tuple[MotorWord, ...]] | None:
     """Return (motor, offset_map) for stream, or None if not loaded."""
     return _corpora.get(stream)
 

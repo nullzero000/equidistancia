@@ -63,7 +63,7 @@ def cmd_search(args) -> None:
     display = results[:args.limit]
 
     print(f"target={args.target}  stream={args.stream}  skip=[{args.skip_min},{args.skip_max}]  "
-          f"motor={len(motor):,}chars  build={build_ms:.0f}ms  search={search_ms:.0f}ms")
+          f"motor={len(motor):,}letters  build={build_ms:.0f}ms  search={search_ms:.0f}ms")
     print(f"matches={total}  showing={len(display)}")
     print()
 
@@ -102,7 +102,7 @@ def cmd_histogram(args) -> None:
 
     total = sum(counts.values())
     print(f"target={args.target}  stream={args.stream}  skip=[{args.skip_min},{args.skip_max}]  "
-          f"motor={len(motor):,}chars  total_matches={total}  elapsed={elapsed:.0f}ms")
+          f"motor={len(motor):,}letters  total_matches={total}  elapsed={elapsed:.0f}ms")
     print()
 
     top = counts.most_common(args.top)

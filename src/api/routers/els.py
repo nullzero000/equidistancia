@@ -17,6 +17,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import StreamingResponse
 
 from src.logic.corpus.builder import locate
+from src.logic.corpus.encoding import encode
 from src.logic.els.search import ELSResult, els_search
 import src.api.state as state
 
@@ -34,12 +35,18 @@ def _validate_target(target: str) -> None:
         )
 
 
-def _expected_matches(motor: str, target: str, skip_range: range) -> int:
+def _expected_matches(motor: bytes, target: str, skip_range: range) -> int:
+    """Frequency-based estimator for total ELS matches across skip_range.
+
+    Uses letter-index bytes for both motor and target (Counter over bytes
+    yields int keys, encode(target) yields matching int keys).
+    """
     n = len(motor)
     if n == 0:
         return 0
     freqs = Counter(motor)
-    p = prod(freqs.get(c, 0) / n for c in target)
+    target_bytes = encode(target)
+    p = prod(freqs.get(b, 0) / n for b in target_bytes)
     return int(n * p * len(skip_range))
 
 
@@ -63,7 +70,7 @@ def _sse_event(event: str, data: dict) -> str:
 
 
 def _stream(
-    motor: str,
+    motor: bytes,
     offset_map,
     target: str,
     skip_range: range,

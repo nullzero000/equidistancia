@@ -1,25 +1,34 @@
-"""Build consonantal motor string + offset map from a tanakh DB."""
+"""Build consonantal motor (bytes of letter indices) + offset map from a tanakh DB.
+
+Motor representation: bytes of length N where N == number of Hebrew letters,
+each byte is a letter index 0–21 via src.logic.corpus.encoding.
+
+Letter count equals byte count, so MotorWord.motor_start/motor_end indices
+are interchangeable between the old str motor and the new bytes motor.
+"""
 import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 
+from src.logic.corpus.encoding import encode
+
 
 @dataclass(frozen=True, slots=True)
 class MotorWord:
-    """Maps a word's starting character index in the motor string to its location."""
-    motor_start: int    # index of first char of this word in motor
-    motor_end: int      # exclusive end index (motor[motor_start:motor_end] == form_he)
+    """Maps a word's letter-index range in the motor to its canonical location."""
+    motor_start: int    # index of first letter of this word in motor
+    motor_end: int      # exclusive end index (motor[motor_start:motor_end] == encoded form_he)
     book_en: str
     chapter: int
     verse: int
     position: int       # word index within the verse
 
 
-def build_motor(db_path: str | Path) -> tuple[str, tuple[MotorWord, ...]]:
-    """Concatenate all word forms in canonical order into a single motor string.
+def build_motor(db_path: str | Path) -> tuple[bytes, tuple[MotorWord, ...]]:
+    """Concatenate encoded word forms in canonical order into a motor bytes object.
 
-    Returns (motor, offset_map) where offset_map[i].motor_start <= char_idx
-    for any char_idx in that word's range. Use locate() to look up a position.
+    Returns (motor, offset_map). offset_map preserves the letter-count invariants
+    used by locate(): motor[w.motor_start : w.motor_end] == encode(form_he).
     """
     path = str(db_path).replace("sqlite:///", "")
     conn = sqlite3.connect(path)
@@ -32,16 +41,17 @@ def build_motor(db_path: str | Path) -> tuple[str, tuple[MotorWord, ...]]:
     ).fetchall()
     conn.close()
 
-    parts: list[str] = []
+    parts: list[bytes] = []
     entries: list[MotorWord] = []
     idx = 0
     for form_he, book_en, chapter, verse, position in rows:
-        end = idx + len(form_he)
+        form_bytes = encode(form_he)
+        end = idx + len(form_bytes)
         entries.append(MotorWord(idx, end, book_en, chapter, verse, position))
-        parts.append(form_he)
+        parts.append(form_bytes)
         idx = end
 
-    return "".join(parts), tuple(entries)
+    return b"".join(parts), tuple(entries)
 
 
 def locate(offset_map: tuple[MotorWord, ...], char_idx: int) -> MotorWord:

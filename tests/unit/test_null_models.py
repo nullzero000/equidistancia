@@ -1,10 +1,14 @@
 """Property tests for null model shufflers.
 
+Motor fixture: encoded Hebrew bytes (letter indices 0–21). Shufflers accept
+and return bytes; Counter over bytes yields int keys corresponding to letter
+indices.
+
 Properties verified:
   - length preservation (all models)
   - exact letter-frequency preservation (letter_shuffle)
-  - approximate letter-frequency preservation (bigram_markov, ±2%)
-  - approximate bigram-frequency preservation (bigram_markov, ±5%)
+  - approximate letter-frequency preservation (bigram_markov, ±10%)
+  - approximate bigram-frequency preservation (bigram_markov, ±20%)
   - determinism given same seed
   - variation: shuffled ≠ original for long motors (probability 1 - ε)
   - NullModel enum dispatches correctly
@@ -15,11 +19,12 @@ from collections import Counter
 import numpy as np
 import pytest
 
+from src.logic.corpus.encoding import encode
 from src.logic.stats.null_models import NullModel, bigram_markov, letter_shuffle
 
-# Representative motor: first verse of Bereshit repeated — covers all common letters.
+# Representative motor: first verse of Bereshit repeated — covers common letters.
 _VERSE = "בראשיתבראאלהיםאתהשמיםואתהארץ"
-MOTOR = _VERSE * 200   # ~5,800 chars — fast to shuffle, statistically meaningful
+MOTOR: bytes = encode(_VERSE * 200)   # ~5,800 letters
 RNG_SEED = 42
 
 
@@ -27,12 +32,12 @@ def _rng(seed=RNG_SEED):
     return np.random.default_rng(seed)
 
 
-def _letter_freqs(s: str) -> Counter:
-    return Counter(s)
+def _letter_freqs(b: bytes) -> Counter:
+    return Counter(b)
 
 
-def _bigram_freqs(s: str) -> Counter:
-    return Counter(zip(s, s[1:]))
+def _bigram_freqs(b: bytes) -> Counter:
+    return Counter(zip(b, b[1:]))
 
 
 # ── letter_shuffle ────────────────────────────────────────────────────────────
@@ -63,39 +68,41 @@ def test_letter_shuffle_differs_from_original():
     assert letter_shuffle(MOTOR, _rng()) != MOTOR
 
 
+def test_letter_shuffle_returns_bytes():
+    assert isinstance(letter_shuffle(MOTOR, _rng()), bytes)
+
+
 # ── bigram_markov ─────────────────────────────────────────────────────────────
 
 def test_bigram_markov_length():
     assert len(bigram_markov(MOTOR, _rng())) == len(MOTOR)
 
 
+def test_bigram_markov_returns_bytes():
+    assert isinstance(bigram_markov(MOTOR, _rng()), bytes)
+
+
 def test_bigram_markov_letter_freqs_approx():
     shuffled = bigram_markov(MOTOR, _rng())
     orig = _letter_freqs(MOTOR)
     shuf = _letter_freqs(shuffled)
-    n = len(MOTOR)
-    for char, count in orig.items():
-        rel_error = abs(shuf.get(char, 0) - count) / count
+    for letter_idx, count in orig.items():
+        rel_error = abs(shuf.get(letter_idx, 0) - count) / count
         assert rel_error < 0.10, (
-            f"Letter '{char}' freq error {rel_error:.1%} > 10% "
-            f"(orig={count}, shuffled={shuf.get(char, 0)})"
+            f"Letter idx={letter_idx} freq error {rel_error:.1%} > 10% "
+            f"(orig={count}, shuffled={shuf.get(letter_idx, 0)})"
         )
 
 
 def test_bigram_markov_bigram_freqs_approx():
-    """Markov-generated text should preserve bigram relative frequencies within 20%.
-
-    Loose tolerance because sampled bigrams are stochastic; tighter bounds would
-    require much larger motors or many samples.
-    """
+    """Markov-generated text should preserve bigram relative frequencies within 20%."""
     shuffled = bigram_markov(MOTOR, _rng())
     orig = _bigram_freqs(MOTOR)
     shuf = _bigram_freqs(shuffled)
-    # Check the 10 most common bigrams only (rare bigrams have high variance).
     for (a, b), count in orig.most_common(10):
         rel_error = abs(shuf.get((a, b), 0) - count) / count
         assert rel_error < 0.20, (
-            f"Bigram {a+b!r} freq error {rel_error:.1%} > 20% "
+            f"Bigram ({a},{b}) freq error {rel_error:.1%} > 20% "
             f"(orig={count}, shuffled={shuf.get((a, b), 0)})"
         )
 

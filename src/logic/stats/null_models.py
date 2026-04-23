@@ -1,8 +1,13 @@
 """Null models for ELS Monte Carlo experiments (Sprint 7).
 
-Each shuffler is a pure function: (motor, rng) -> str of the same length.
+Each shuffler is a pure function: (motor, rng) -> bytes of the same length.
 All randomness flows through the numpy Generator — reproducibility via
-np.random.default_rng(seed) or a SeedSequence child seed (Sprint 7b).
+np.random.default_rng(seed) or a SeedSequence child seed.
+
+Motor type: bytes of letter indices 0–21 (src.logic.corpus.encoding). This
+representation lets numba @njit the full pipeline without Python string /
+dict overhead. Ref: Lam, Pitrou, Seibert (2015), "Numba: A LLVM-based Python
+JIT Compiler", Proc. LLVM-HPC 2015: 7:1-7:6.
 
 Implemented:
   NullModel.LETTER_SHUFFLE   — uniform permutation, preserves marginal freqs exactly
@@ -14,59 +19,107 @@ Deferred (Sprint 7d):
 """
 from __future__ import annotations
 
-from collections import Counter
 from enum import Enum
 
 import numpy as np
+from numba import njit
+
+from src.logic.corpus.encoding import N_LETTERS, as_array
 
 
-def letter_shuffle(motor: str, rng: np.random.Generator) -> str:
-    """Uniformly permute all characters. Preserves marginal letter frequencies exactly."""
-    # Encode as uint32 code-points for O(n) in-place shuffle.
-    arr = np.frombuffer(motor.encode("utf-32-le"), dtype=np.uint32).copy()
+def letter_shuffle(motor: bytes, rng: np.random.Generator) -> bytes:
+    """Uniformly permute all letters. Preserves marginal frequencies exactly."""
+    arr = as_array(motor).copy()
     rng.shuffle(arr)
-    return arr.tobytes().decode("utf-32-le")
+    return arr.tobytes()
 
 
-def bigram_markov(motor: str, rng: np.random.Generator) -> str:
-    """Generate synthetic text of same length via first-order Markov chain.
-
-    Transition probabilities estimated from motor bigrams. Initial state sampled
-    from marginal letter frequencies. For skip K → ∞, converges to letter_shuffle.
-    """
-    chars = sorted(set(motor))
-    n_states = len(chars)
-    char_to_idx = {c: i for i, c in enumerate(chars)}
-
-    # Build transition matrix from bigram counts (C-speed via Counter).
+@njit(cache=True)
+def _build_cdf(motor_arr: np.ndarray, n_states: int) -> tuple[np.ndarray, np.ndarray]:
+    """Build CDF of bigram transitions + CDF of marginal letter frequencies."""
+    n = motor_arr.shape[0]
     trans = np.zeros((n_states, n_states), dtype=np.float64)
-    for (a, b), count in Counter(zip(motor, motor[1:])).items():
-        trans[char_to_idx[a], char_to_idx[b]] = count
-
-    # Normalize rows; rows with zero mass get uniform fallback.
-    row_sums = trans.sum(axis=1, keepdims=True)
-    row_sums[row_sums == 0] = 1.0
-    trans /= row_sums
-    cum_trans = np.cumsum(trans, axis=1)  # (n_states, n_states) CDF rows
-
-    # Initial state from marginal frequencies.
-    counts = np.array([motor.count(c) for c in chars], dtype=np.float64)
-    counts /= counts.sum()
-    cum_counts = np.cumsum(counts)
-
-    n = len(motor)
-    result = np.empty(n, dtype=np.int32)
-    uniforms = rng.random(n)
-
-    state = int(np.searchsorted(cum_counts, uniforms[0]))
-    state = min(state, n_states - 1)
+    marg = np.zeros(n_states, dtype=np.float64)
 
     for i in range(n):
-        result[i] = state
-        nxt = int(np.searchsorted(cum_trans[state], uniforms[i]))
-        state = min(nxt, n_states - 1)
+        marg[motor_arr[i]] += 1.0
+    for i in range(n - 1):
+        trans[motor_arr[i], motor_arr[i + 1]] += 1.0
 
-    return "".join(chars[i] for i in result)
+    # Normalize rows; zero-mass rows fall back to uniform.
+    for r in range(n_states):
+        row_sum = 0.0
+        for c in range(n_states):
+            row_sum += trans[r, c]
+        if row_sum == 0.0:
+            for c in range(n_states):
+                trans[r, c] = 1.0 / n_states
+        else:
+            for c in range(n_states):
+                trans[r, c] /= row_sum
+
+    cum_trans = np.empty_like(trans)
+    for r in range(n_states):
+        acc = 0.0
+        for c in range(n_states):
+            acc += trans[r, c]
+            cum_trans[r, c] = acc
+
+    marg_total = 0.0
+    for s in range(n_states):
+        marg_total += marg[s]
+    cum_marg = np.empty(n_states, dtype=np.float64)
+    acc = 0.0
+    for s in range(n_states):
+        acc += marg[s] / marg_total
+        cum_marg[s] = acc
+
+    return cum_trans, cum_marg
+
+
+@njit(cache=True)
+def _sample_markov(
+    cum_trans: np.ndarray,
+    cum_marg: np.ndarray,
+    uniforms: np.ndarray,
+    n: int,
+    n_states: int,
+) -> np.ndarray:
+    """Sample n states from a Markov chain with pre-built CDFs."""
+    out = np.empty(n, dtype=np.uint8)
+
+    # Initial state from marginal CDF (linear scan — n_states is tiny, 22).
+    u0 = uniforms[0]
+    state = 0
+    while state < n_states - 1 and cum_marg[state] < u0:
+        state += 1
+    out[0] = state
+
+    for i in range(1, n):
+        u = uniforms[i]
+        row = cum_trans[state]
+        nxt = 0
+        while nxt < n_states - 1 and row[nxt] < u:
+            nxt += 1
+        state = nxt
+        out[i] = state
+
+    return out
+
+
+def bigram_markov(motor: bytes, rng: np.random.Generator) -> bytes:
+    """Generate synthetic text of same length via first-order Markov chain.
+
+    Transition probabilities estimated from motor bigrams. Initial state
+    sampled from marginal letter frequencies. For skip K → ∞, converges to
+    letter_shuffle.
+    """
+    motor_arr = as_array(motor)
+    n = motor_arr.shape[0]
+    cum_trans, cum_marg = _build_cdf(motor_arr, N_LETTERS)
+    uniforms = rng.random(n)
+    out = _sample_markov(cum_trans, cum_marg, uniforms, n, N_LETTERS)
+    return out.tobytes()
 
 
 class NullModel(str, Enum):
@@ -76,7 +129,7 @@ class NullModel(str, Enum):
     RESIDUE_CLASS    = "residue_class"     # H₃: per-skip null (Sprint 7d)
     BOOK_PERMUTATION = "book_permutation"  # H₄: canonical order null (Sprint 7d)
 
-    def apply(self, motor: str, rng: np.random.Generator) -> str:
+    def apply(self, motor: bytes, rng: np.random.Generator) -> bytes:
         if self is NullModel.LETTER_SHUFFLE:
             return letter_shuffle(motor, rng)
         if self is NullModel.BIGRAM_MARKOV:

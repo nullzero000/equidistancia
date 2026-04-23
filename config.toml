@@ -1,0 +1,82 @@
+[paths]
+data_raw_dir = "data/raw"
+data_processed_dir = "data/processed"
+
+[corpus]
+books = [
+  "Genesis","Exodus","Leviticus","Numbers","Deuteronomy",
+  "Joshua","Judges","I Samuel","II Samuel","I Kings","II Kings",
+  "Isaiah","Jeremiah","Ezekiel",
+  "Hosea","Joel","Amos","Obadiah","Jonah","Micah",
+  "Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi",
+  "Psalms","Proverbs","Job","Song of Songs","Ruth",
+  "Lamentations","Ecclesiastes","Esther",
+  "Daniel","Ezra","Nehemiah","I Chronicles","II Chronicles",
+]
+
+[cleaning]
+collapse_finals = true   # WRR-94 ELS convention
+stream = "ketiv"
+keep_finals_in_gematria = false
+
+[invariants]
+# Layer 1: regression gate. Baseline empirical MAM/ketiv, commit 1160393.
+# Tolerance 0.05% per book; min_absolute_delta 3 for books < 1000 words.
+masoretic_tolerance = 0.0005
+
+# Layer 2: acceptance cross-check vs Breuer, Keter Yerushalayim (2001).
+# ISBN 965-7209-01-5. Tolerance 0.5% (MAM vs Aleppo editorial variance).
+# Populate from Breuer apparatus before Sprint 5 gate.
+breuer_tolerance = 0.005
+
+# Layer 1 baselines — empirical MAM/ketiv post-fix 2026-04-22 (commit 1160393)
+# Source: Sefaria MAM export, CleaningPolicy GEMATRIA_POLICY stream=ketiv
+# DO NOT edit manually — regenerate with: python -m scripts.measure_nevi_ketuvim
+[invariants.letter_counts]
+Genesis = 20637
+Exodus = 16710
+Leviticus = 11963
+Numbers = 16428
+Deuteronomy = 14275
+Joshua = 10013
+Judges = 9829
+I_Samuel = 13232
+II_Samuel = 10964
+I_Kings = 13133
+II_Kings = 12270
+Isaiah = 16921
+Jeremiah = 21825
+Ezekiel = 18719
+Hosea = 2378
+Joel = 957
+Amos = 2041
+Obadiah = 291
+Jonah = 688
+Micah = 1396
+Nahum = 556
+Habakkuk = 671
+Zephaniah = 767
+Haggai = 600
+Zechariah = 3128
+Malachi = 876
+Psalms = 19580
+Proverbs = 6907
+Job = 8337
+Song_of_Songs = 1250
+Ruth = 1295
+Lamentations = 1541
+Ecclesiastes = 2966
+Esther = 3048
+Daniel = 5920
+Ezra = 3747
+Nehemiah = 5302
+I_Chronicles = 10664
+II_Chronicles = 13303
+
+# Layer 2 baselines — Breuer, Keter Yerushalayim (2001)
+# ISBN 965-7209-01-5. Transcription pending (Paso B).
+# Only Torah populated so far; complete before Sprint 5.
+[invariants.breuer_reference]
+# Genesis = ?
+# Exodus = ?
+# (populate from Breuer apparatus, citing page numbers)

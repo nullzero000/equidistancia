@@ -7,6 +7,7 @@ como ocurrencia válida en McKay et al. 1999 §4 pre-controversia.
 from pathlib import Path
 import pytest
 from src.logic.corpus.builder import build_motor, locate
+from src.logic.corpus.encoding import encode
 from src.logic.els.search import els_search
 
 DB = Path(__file__).resolve().parents[2] / "data" / "processed" / "tanakh.db"
@@ -54,11 +55,17 @@ def test_torah_skip_50_in_genesis(motor_and_map):
 
 
 def test_motor_letter_identity(motor_and_map):
-    """motor[i] for each canonical index must match the expected letter."""
+    """motor[i] for each canonical index must match the expected letter index.
+
+    motor is bytes; indexing returns int (Python datamodel §bytes). Compare
+    against encode(letter)[0] — the uint8 letter index — not against the
+    Hebrew char.
+    """
     motor, _ = motor_and_map
     for idx, expected_letter in zip(WRR_TORAH_INDICES, WRR_TORAH_TARGET):
-        assert motor[idx] == expected_letter, (
-            f"motor[{idx}]={motor[idx]!r} ≠ {expected_letter!r}"
+        expected_idx = encode(expected_letter)[0]
+        assert motor[idx] == expected_idx, (
+            f"motor[{idx}]={motor[idx]!r} ≠ encode({expected_letter!r})[0]={expected_idx!r}"
         )
 
 

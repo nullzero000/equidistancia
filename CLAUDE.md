@@ -50,8 +50,10 @@ src/
 │   ├── state.py                  # lifespan cache del motor por stream
 │   └── routers/
 │       └── els.py                # /els/search SSE + /els/corpora
-└── cli/
-    └── els.py                    # argparse: search, histogram
+├── cli/
+│   └── els.py                    # argparse: search, histogram, test
+└── ui/
+    └── app.py                    # Streamlit: Monte Carlo experiment UI
 data/
 ├── processed/
 │   ├── tanakh.db                 # ketiv motor + offset map
@@ -139,11 +141,12 @@ Para outputs con formato fijo, prellenar el turn del assistant con el delimitado
 - Latencia skip[1,1000]: 3.5–4.4s sobre motor completo
 - Histogram audit: CV ≤ 2.2× en rango [2,1000] — distribución plana, sin clustering anómalo
 
-### API + CLI
+### API + CLI + UI
 - `GET /els/search` SSE con eventos estimate → match* → done
+- `GET /els/test` SSE Monte Carlo: estimate → progress* → result; NullModel como query param nativo; 501 para modelos deferred; motor cached vía lifespan
 - `GET /els/corpora` lista streams cargados (ketiv, qere)
-- CLI `python -m src.cli.els {search,histogram}` con `--stream` y `--corpus`
-- Motor cached vía lifespan, 503 si corpus requerido no está disponible (no fail-fast)
+- CLI `python -m src.cli.els {search,histogram,test}` con `--stream`, `--corpus`, `--null-model`, `--iterations`, `--seed`
+- UI `streamlit run src/ui/app.py` — motor cacheado vía `@st.cache_resource` por stream; deps en `requirements-ui.txt` (streamlit, matplotlib)
 
 ### Stats (Sprint 7)
 - Null models jitted: `letter_shuffle` (17ms/iter), `bigram_markov` (22ms/iter) sobre motor 1.2M
@@ -161,8 +164,9 @@ Sprint 5a   CLI exploration + performance audit
 Sprint 5c   FastAPI /els/search SSE
 Sprint 6    dual corpus ketiv/qere en API + CLI
 Sprint 7a   null_models (letter_shuffle, bigram_markov)
-Sprint 7b   monte_carlo runner              ← último committed
-Sprint 7c   exposure: CLI subcommand + API /els/test SSE  (pendiente)
+Sprint 7b   monte_carlo runner
+Sprint 7c   exposure: CLI test + API /els/test SSE  ← último committed
+Sprint 7c.5 Streamlit UI Monte Carlo               ← último committed
 Sprint 7d   null_models RESIDUE_CLASS + BOOK_PERMUTATION (pendiente)
 Sprint 6.5  Breuer-Keter Layer 2 (pendiente, gated por transcripción)
 ```

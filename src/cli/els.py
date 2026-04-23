@@ -71,6 +71,38 @@ def cmd_search(args) -> None:
         print(f"  skip={r.skip:+5d}  start={r.start:7d}  indices={r.indices}  {span}")
 
 
+def cmd_histogram(args) -> None:
+    from src.logic.corpus.builder import build_motor
+    from src.logic.els.search import els_search
+    from collections import Counter
+
+    db = Path(args.corpus)
+    if not db.exists():
+        sys.exit(f"DB not found: {db}")
+
+    motor, _ = build_motor(db)
+    skip_range = range(args.skip_min, args.skip_max + 1)
+
+    t0 = time.perf_counter()
+    counts: Counter[int] = Counter()
+    for r in els_search(motor, args.target, skip_range):
+        counts[r.skip] += 1
+    elapsed = (time.perf_counter() - t0) * 1000
+
+    total = sum(counts.values())
+    print(f"target={args.target}  skip=[{args.skip_min},{args.skip_max}]  "
+          f"motor={len(motor):,}chars  total_matches={total}  elapsed={elapsed:.0f}ms")
+    print()
+
+    top = counts.most_common(args.top)
+    print(f"{'skip':>6}  {'count':>7}  {'bar'}")
+    max_count = top[0][1] if top else 1
+    bar_width = 40
+    for skip, count in top:
+        bar = "█" * int(count / max_count * bar_width)
+        print(f"  {skip:+5d}  {count:7d}  {bar}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="python -m src.cli.els")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -83,9 +115,18 @@ def main() -> None:
     s.add_argument("--limit", type=int, default=50, help="Max results to print (default 50)")
     s.add_argument("--corpus", default=str(DB_DEFAULT), help="Path to tanakh.db")
 
+    h = sub.add_parser("histogram", help="Match-count distribution by skip value")
+    h.add_argument("--target", required=True)
+    h.add_argument("--skip-min", type=int, default=2, metavar="N")
+    h.add_argument("--skip-max", type=int, default=1000, metavar="N")
+    h.add_argument("--top", type=int, default=20, help="Show top N skips by count")
+    h.add_argument("--corpus", default=str(DB_DEFAULT))
+
     args = parser.parse_args()
     if args.cmd == "search":
         cmd_search(args)
+    elif args.cmd == "histogram":
+        cmd_histogram(args)
 
 
 if __name__ == "__main__":

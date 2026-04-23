@@ -50,6 +50,24 @@ real-time frontend. Options in order of implementation cost:
 **Recommendation for Sprint 5c (API):** implement streaming endpoint (SSE or chunked JSON).
 Síncrono works for CLI and for skip ranges ≤ 100. For the browser, stream.
 
+## Skip distribution — histogram audit (Sprint 5a addendum)
+
+Query: `histogram --skip-min 2 --skip-max 1000` for three targets.
+
+| target | total_matches | top_skip | top_count | mean_count | CV (top/mean) |
+|--------|--------------|----------|-----------|------------|---------------|
+| תורה   | 32,687       | 4        | 62        | ~33        | 1.9×          |
+| יהוה   | 108,798      | 942      | 140       | ~109       | 1.3×          |
+| משיח   | 7,347        | 117,841  | 16        | ~7.4       | 2.2×          |
+
+**Distribution is essentially flat (uniform).** No skip clusters by more than ~2× the
+mean — consistent with Poisson baseline for independent letter frequencies.
+The apparent "peaks" are statistical noise, not textual structure.
+
+**Architectural consequence:** no `/els/skip-histogram` endpoint needed. A single
+`/els/search` with pagination is sufficient. Users exploring density can use the CLI.
+Precomputed inverted index is not warranted for the interactive use case.
+
 ## WRR canonical check
 
 ```

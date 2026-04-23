@@ -1,17 +1,26 @@
-"""ELS search router — SSE streaming endpoint.
+"""ELS search router — SSE streaming endpoints.
 
-Event sequence:
+/els/search event sequence:
   event: estimate   data: {"expected": <int>}
   event: match      data: {"skip": <int>, "start": <int>, "indices": [...],
                             "verses": [{"book": ..., "chapter": ..., "verse": ...}]}
   ...
   event: done       data: {"total_found": <int>}
+
+/els/test event sequence:
+  event: estimate   data: {"n_iterations": <int>, "eta_ms": <int>}
+  event: progress   data: {"iteration": <int>, "total": <int>}
+  ...
+  event: result     data: {"observed_count": <int>, "null_mean": <float>,
+                            "null_std": <float>, "z_score": <float>, "p_value": <float>}
 """
+import asyncio
 import json
 import re
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from math import prod
-from typing import Iterator
+from typing import AsyncIterator, Iterator
 
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import StreamingResponse
@@ -19,7 +28,14 @@ from fastapi.responses import StreamingResponse
 from src.logic.corpus.builder import locate
 from src.logic.corpus.encoding import encode
 from src.logic.els.search import ELSResult, els_search
+from src.logic.stats.null_models import NullModel
 import src.api.state as state
+
+# Benchmark medians from Sprint 7a (ms per iteration on full 1.2M motor).
+_ITER_MS: dict[NullModel, int] = {
+    NullModel.LETTER_SHUFFLE: 17,
+    NullModel.BIGRAM_MARKOV:  22,
+}
 
 router = APIRouter()
 
@@ -130,6 +146,83 @@ def els_search_endpoint(
     skip_range = range(skip_min, skip_max + 1)
     return StreamingResponse(
         _stream(motor, offset_map, target, skip_range, book, limit),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+async def _stream_experiment(
+    motor: bytes,
+    target: str,
+    skip_range: range,
+    null_model: NullModel,
+    n_iterations: int,
+    seed: int,
+) -> AsyncIterator[str]:
+    from src.logic.stats.monte_carlo import run_experiment
+
+    eta_ms = n_iterations * _ITER_MS[null_model]
+    yield _sse_event("estimate", {"n_iterations": n_iterations, "eta_ms": eta_ms})
+
+    loop = asyncio.get_running_loop()
+    queue: asyncio.Queue[tuple[int, int] | None] = asyncio.Queue()
+
+    def _progress(i: int, n: int) -> None:
+        loop.call_soon_threadsafe(queue.put_nowait, (i, n))
+
+    def _run() -> object:
+        try:
+            return run_experiment(motor, target, skip_range, null_model, n_iterations, seed=seed, progress=_progress)
+        finally:
+            loop.call_soon_threadsafe(queue.put_nowait, None)  # sentinel
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        future = loop.run_in_executor(pool, _run)
+
+        while True:
+            item = await queue.get()
+            if item is None:
+                break
+            i, n = item
+            yield _sse_event("progress", {"iteration": i, "total": n})
+
+    result = await future  # raises NotImplementedError if model is deferred
+
+    yield _sse_event("result", {
+        "observed_count": result.observed_count,
+        "null_mean":      round(result.null_mean, 6),
+        "null_std":       round(result.null_std, 6),
+        "z_score":        round(result.z_score, 6),
+        "p_value":        round(result.p_value, 8),
+    })
+
+
+@router.get("/test", summary="Monte Carlo significance test — SSE stream")
+async def els_test_endpoint(
+    target: str = Query(..., description="Hebrew consonants, 2–20 chars"),
+    skip_min: int = Query(2, ge=2, le=10000),
+    skip_max: int = Query(..., ge=2, le=10000),
+    null_model: NullModel = Query(NullModel.BIGRAM_MARKOV, description="Null model"),
+    iterations: int = Query(100, ge=1, le=10000),
+    seed: int = Query(0),
+    stream: str = Query("ketiv", description="Corpus stream: ketiv or qere"),
+):
+    _validate_target(target)
+    if skip_min > skip_max:
+        raise HTTPException(status_code=422, detail="skip_min must be ≤ skip_max")
+    if stream not in _VALID_STREAMS:
+        raise HTTPException(status_code=422, detail=f"stream must be one of {sorted(_VALID_STREAMS)}")
+    if null_model not in _ITER_MS:
+        raise HTTPException(status_code=501, detail=f"{null_model.value!r} not implemented until Sprint 7d")
+
+    corpus = state.get_corpus(stream)
+    if corpus is None:
+        raise HTTPException(status_code=503, detail=f"Corpus '{stream}' not available — DB not loaded at startup")
+    motor, _ = corpus
+
+    skip_range = range(skip_min, skip_max + 1)
+    return StreamingResponse(
+        _stream_experiment(motor, target, skip_range, null_model, iterations, seed),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )

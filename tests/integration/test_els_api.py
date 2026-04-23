@@ -1,32 +1,12 @@
 """Integration tests for GET /els/search (SSE).
 
 Requires tanakh.db. Skipped automatically if DB is absent (CI without corpus).
+client fixture provided by conftest.py (session-scoped).
 """
 import json
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
-
-_DATA = Path(__file__).resolve().parents[2] / "data" / "processed"
-DB_KETIV = _DATA / "tanakh.db"
-DB_QERE  = _DATA / "tanakh_qere.db"
-
-
-@pytest.fixture(scope="module")
-def client():
-    if not DB_KETIV.exists():
-        pytest.skip(f"DB missing: {DB_KETIV}")
-    # Pre-populate state cache so TestClient doesn't need to run lifespan.
-    import src.api.state as state
-    from src.logic.corpus.builder import build_motor
-    state._corpora["ketiv"] = build_motor(DB_KETIV)
-    if DB_QERE.exists():
-        state._corpora["qere"] = build_motor(DB_QERE)
-
-    from src.api.routes import app
-    with TestClient(app, raise_server_exceptions=True) as c:
-        yield c
 
 
 def _parse_sse(response) -> list[dict]:
@@ -125,7 +105,7 @@ def test_corpora_endpoint_lists_streams(client):
 
 def test_qere_wrr_fixture(client):
     """תורה skip=50 start=5 must also appear in the qere corpus."""
-    import src.api.state as state
+    import src.api.state as state  # noqa: PLC0415
     if "qere" not in state._corpora:
         pytest.skip("qere DB not loaded")
     resp = client.get("/els/search", params={

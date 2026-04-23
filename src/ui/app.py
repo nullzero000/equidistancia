@@ -7,13 +7,24 @@ Motor is cached per corpus stream via @st.cache_resource (build ~700ms once
 per session). run_experiment() runs in the main thread; st.progress updates
 synchronously between iterations via the progress callback.
 """
+import sys
 import matplotlib.pyplot as plt
 import streamlit as st
 from pathlib import Path
 
+# Ensure project root is on sys.path regardless of launch CWD.
+_ROOT = Path(__file__).resolve().parents[2]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+import pandas as pd
+
 from src.logic.corpus.builder import build_motor
+from src.logic.els.search import locate_matches
 from src.logic.stats.monte_carlo import run_experiment
 from src.logic.stats.null_models import NullModel
+
+_MATCH_LIMIT = 1000
 
 _DATA = Path(__file__).resolve().parents[2] / "data" / "processed"
 _DB = {
@@ -56,7 +67,7 @@ if st.button("Run experiment", type="primary"):
         st.error("skip_min must be ≤ skip_max.")
         st.stop()
 
-    motor, _ = _load_motor(stream)
+    motor, offset_map = _load_motor(stream)
     null_model = NullModel(null_model_val)
     skip_range = range(int(skip_min), int(skip_max) + 1)
 
@@ -93,3 +104,22 @@ if st.button("Run experiment", type="primary"):
     fig.tight_layout()
     st.pyplot(fig)
     plt.close(fig)
+
+    # ── Match locations ────────────────────────────────────────────────────────
+    if result.observed_count > 0:
+        rows, truncated = locate_matches(
+            motor, offset_map, target, skip_range, limit=_MATCH_LIMIT
+        )
+        label = (
+            f"Ver los primeros {_MATCH_LIMIT} matches (de {result.observed_count})"
+            if truncated
+            else f"Ver los {result.observed_count} matches"
+        )
+        with st.expander(label, expanded=False):
+            if truncated:
+                st.warning(
+                    f"Mostrando los primeros {_MATCH_LIMIT} de {result.observed_count} matches. "
+                    "Reduce el skip_range o usa un target más largo para ver todos."
+                )
+            df = pd.DataFrame(rows).sort_values("skip").reset_index(drop=True)
+            st.dataframe(df, use_container_width=True)

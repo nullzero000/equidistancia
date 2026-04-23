@@ -23,6 +23,7 @@ import src.api.state as state
 router = APIRouter()
 
 _HEBREW_CONSONANTS = re.compile(r"^[א-ת]{2,20}$")
+_VALID_STREAMS = {"ketiv", "qere"}
 
 
 def _validate_target(target: str) -> None:
@@ -42,12 +43,12 @@ def _expected_matches(motor: str, target: str, skip_range: range) -> int:
     return int(n * p * len(skip_range))
 
 
-def _verse_refs(result: ELSResult) -> list[dict]:
+def _verse_refs(result: ELSResult, offset_map) -> list[dict]:
     refs = []
     seen: set[tuple] = set()
     for idx in result.indices:
         try:
-            w = locate(state.offset_map, idx)
+            w = locate(offset_map, idx)
             key = (w.book_en, w.chapter, w.verse)
             if key not in seen:
                 seen.add(key)
@@ -62,14 +63,13 @@ def _sse_event(event: str, data: dict) -> str:
 
 
 def _stream(
+    motor: str,
+    offset_map,
     target: str,
     skip_range: range,
     book_filter: str,
     limit: int,
 ) -> Iterator[str]:
-    motor = state.motor
-    offset_map = state.offset_map
-
     expected = _expected_matches(motor, target, skip_range)
     yield _sse_event("estimate", {"expected": expected})
 
@@ -91,7 +91,7 @@ def _stream(
             "skip": result.skip,
             "start": result.start,
             "indices": list(result.indices),
-            "verses": _verse_refs(result),
+            "verses": _verse_refs(result, offset_map),
         })
 
     yield _sse_event("done", {"total_found": total})
@@ -104,16 +104,30 @@ def els_search_endpoint(
     skip_max: int = Query(..., ge=2, le=10000),
     book: str = Query("", description="Book name substring filter (optional)"),
     limit: int = Query(100, ge=1, le=10000),
+    stream: str = Query("ketiv", description="Corpus stream: ketiv or qere"),
 ):
     _validate_target(target)
     if skip_min > skip_max:
         raise HTTPException(status_code=422, detail="skip_min must be ≤ skip_max")
-    if not state.motor:
-        raise HTTPException(status_code=503, detail="Motor not loaded — DB unavailable")
+    if stream not in _VALID_STREAMS:
+        raise HTTPException(status_code=422, detail=f"stream must be one of {sorted(_VALID_STREAMS)}")
+
+    corpus = state.get_corpus(stream)
+    if corpus is None:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Corpus '{stream}' not available — DB not loaded at startup",
+        )
+    motor, offset_map = corpus
 
     skip_range = range(skip_min, skip_max + 1)
     return StreamingResponse(
-        _stream(target, skip_range, book, limit),
+        _stream(motor, offset_map, target, skip_range, book, limit),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+@router.get("/corpora", summary="List available corpus streams")
+def list_corpora():
+    return {"streams": state.loaded_streams()}

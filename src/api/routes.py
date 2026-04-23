@@ -5,8 +5,11 @@ from sqlalchemy.orm import Session, joinedload
 from src.infrastructure.schema import Word, Verse, get_engine
 from src.logic.temurah import all_transforms, gs_after_transform, transform
 from src.logic.shoresh import extract
+from src.api.state import lifespan
+from src.api.routers.els import router as els_router
 
-app = FastAPI(title="Tanakh Gematria Service", version="0.3.0")
+app = FastAPI(title="Tanakh Gematria Service", version="0.3.0", lifespan=lifespan)
+app.include_router(els_router, prefix="/els", tags=["els"])
 
 
 def get_session():

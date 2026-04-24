@@ -14,7 +14,7 @@ is accepted as str or bytes; str is encoded internally at the boundary.
 from typing import Iterator, NamedTuple
 
 from src.logic.corpus.builder import MotorWord, locate
-from src.logic.corpus.encoding import encode
+from src.logic.corpus.encoding import decode, encode
 
 
 class ELSResult(NamedTuple):
@@ -44,7 +44,6 @@ def els_search(
     target_bytes: bytes
     if isinstance(target, bytes):
         target_bytes = target
-        from src.logic.corpus.encoding import decode
         target_str = decode(target_bytes)
     else:
         target_str = target
@@ -97,8 +96,10 @@ def locate_matches(
     Returns (rows, truncated) where rows is a list of dicts ready for
     pandas/display and truncated is True if the result set was capped at limit.
 
-    Each dict: {skip, start_pos, first_book, first_ref, last_book, last_ref}.
-    first_ref / last_ref format: "Chapter:Verse" strings for compact display.
+    Each dict: {skip, start_pos, first_book, first_ref, first_word,
+    last_book, last_ref, last_word}. Refs format: "Chapter:Verse".
+    first_word / last_word are the consonantal Hebrew forms of the words
+    containing the first and last letters of the match.
 
     limit caps materialisation to avoid OOM on targets with tens of thousands
     of matches (e.g. 3-letter targets over wide skip ranges).
@@ -113,11 +114,13 @@ def locate_matches(
         except IndexError:
             continue
         rows.append({
-            "skip":      result.skip,
-            "start_pos": result.start,
+            "skip":       result.skip,
+            "start_pos":  result.start,
             "first_book": first.book_en,
             "first_ref":  f"{first.chapter}:{first.verse}",
+            "first_word": decode(motor[first.motor_start:first.motor_end]),
             "last_book":  last.book_en,
             "last_ref":   f"{last.chapter}:{last.verse}",
+            "last_word":  decode(motor[last.motor_start:last.motor_end]),
         })
     return rows, False

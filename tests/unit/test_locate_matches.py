@@ -47,8 +47,21 @@ def test_row_dict_has_required_keys():
     motor, offset_map = _synthetic()
     rows, _ = locate_matches(motor, offset_map, "תורה", range(1, 2))
     assert rows, "expected at least one match"
-    keys = {"skip", "start_pos", "first_book", "first_ref", "last_book", "last_ref"}
+    keys = {
+        "skip", "start_pos",
+        "first_book", "first_ref", "first_word",
+        "last_book", "last_ref", "last_word",
+    }
     assert keys <= rows[0].keys()
+
+
+def test_first_and_last_word_populated():
+    motor, offset_map = _synthetic()
+    # synthetic offset_map has one MotorWord per letter, so first_word/last_word
+    # equal the single letter at that position
+    rows, _ = locate_matches(motor, offset_map, "תורה", range(1, 2))
+    assert rows[0]["first_word"] == "ת"
+    assert rows[0]["last_word"] == "ה"
 
 
 def test_limit_truncates_and_signals():

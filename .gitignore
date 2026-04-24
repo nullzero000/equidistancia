@@ -13,3 +13,4 @@ data/processed/*.sqlite.*
 *.log
 *.pid
 .claude/
+apps/hermeneutica/models_from_mystical/

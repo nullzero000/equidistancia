@@ -1,5 +1,8 @@
-# Ignore DB files and backups, track only MANIFEST
+# Ignore DB files and backups, track only MANIFEST and active corpora
 *.db
 *.db.*
 *.sqlite
 *.sqlite.*
+# Active corpora needed for Streamlit Cloud deploy
+!tanakh.db
+!tanakh_qere.db

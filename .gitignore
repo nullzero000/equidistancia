@@ -5,10 +5,9 @@ venv/
 node_modules/
 .DS_Store
 data/raw/Sefaria-Export/
-data/processed/*.db
 data/processed/*.db.*
-data/processed/*.sqlite
 data/processed/*.sqlite.*
+data/processed/tanakh_els.db
 .env
 *.log
 *.pid

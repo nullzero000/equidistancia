@@ -90,11 +90,11 @@ if mode == "Search":
             help="Palabra a buscar. Solo consonantes. Finales se colapsan (ף→פ, etc).",
         )
         skip_min = st.number_input(
-            "skip_min", min_value=2, max_value=10_000, value=2, step=1,
-            help="Mínimo salto a probar. ELS busca el target con cada skip en [skip_min, skip_max].",
+            "skip_min", min_value=-10_000, max_value=10_000, value=2, step=1,
+            help="Mínimo salto. Negativo busca el target invertido (Forma B). ELS busca en [skip_min, skip_max].",
         )
         skip_max = st.number_input(
-            "skip_max", min_value=2, max_value=10_000, value=100, step=1,
+            "skip_max", min_value=-10_000, max_value=10_000, value=100, step=1,
             help=(
                 "Máximo skip. Barrido amplio descubre más patterns pero sube el conteo esperado "
                 "por chance. Referencias: WRR `תורה` a skip=50; אינסוף ketiv a skip=65, 196, 350, 453, 739, 849, 966."
